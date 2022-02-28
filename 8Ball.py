@@ -6,8 +6,8 @@ def embed(title="<empty>", url="", description="", color=0xFF5733):
     return discord.Embed(title=title, url=url, description=description, color=color)
 
 # 8Ball command
-@commands.command(name='_ball')
-async def _ball(ctx):
+@commands.command(name='ball')
+async def ball(ctx):
     # Magic 8 ball function
     positive_responses = [
         "It is certain.",
@@ -42,5 +42,5 @@ async def _ball(ctx):
     await ctx.send(embed=embed("8 Ball","",message,color=0x2211EE))
 
 def setup(bot):
-    bot.add_command(_ball)
+    bot.add_command(ball)
     

@@ -29,5 +29,7 @@ def embed(title="<empty>", url="", description="", color=0xFF5733):
 bot.load_extension("Fact")
 # bot.load_extension("TicTacToe")
 bot.load_extension("8Ball")
+bot.load_extension("Ban")
+bot.load_extension("Mute")
 
 bot.run(os.getenv("TOKEN", "[ERROR]: getenv('TOKEN') failed"))
