@@ -112,36 +112,9 @@ async def _fact(ctx, arg1="onion", arg2=1, arg3="popularity"): # channel object,
         "Over the next 20 years, global warming is expected to increase by 0.2 degrees per decade."
     ]
     
-    #    fact_date_to=datetime.now().date().strftime("%Y-%m-%d")
-    #    print(f"[DEBUG][fact]: fact_date_to is '{fact_date_to}'")
-    #
-    #    fact_date_from=(datetime.now().date() - relativedelta(months=int(arg2))).strftime("%Y-%m-%d")
-    #    print(f"[DEBUG][fact]: fact_date_from is '{fact_date_from}'")
-    #
-    #    fact_topic=arg1
-    #    print(f"[DEBUG][fact]: fact_topic is '{fact_topic}'")
-    #
-    #    fact_api_key = os.getenv("FACT_API_KEY", "[ERROR]: getenv('FACT_API_KEY') failed")
-    #    print(f"[DEBUG][fact]: fact_api_key is '{fact_api_key}'")
-    #
-    #    fact_sort=str(arg3)
-    #
-    #    titles=["You wanted it. You'll get it!","Roger Roger.","Did you know that google exists?","End my suffering...","Here's what I found:","Yooo. It's lit!","Cactus Jack sent me...","Fascinating","Go on. Read it. I dare you!"]
-    #
-    #    title = random.choice (titles)
-    #    request = "https://newsapi.org/v2/everything?q="+fact_topic+"&from="+fact_date_from+"&to="+fact_date_to+"&sortBy="+fact_sort+"&apiKey="+fact_api_key
-    #    print(f"[DEBUG][fact]: request is '{request}'")
-    #
-    #    api_data = requests.get(request)
-    #
-    #    print(api_data.json())
-    #
-    #    await ctx.send(embed=embed(title,request,description=api_data.json(),color=0x2211EE))
-
     message = random.choice(messages)
 
     await ctx.send(embed=embed(title,"",message,color=0x2211EE))
-
 
 def setup(bot):
     bot.add_command(_fact)
