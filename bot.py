@@ -22,10 +22,11 @@ bot.load_extension("userinfo")
 # Update File wenn Benutzer joint
 @bot.event
 async def on_member_join(member):
-    channel = bot.get_channel(886972346336940055)
+    channel = bot.get_channel(902176471844540486)
     embed = discord.Embed(title="Willkommen!", description=f"{member.mention} ist unserem Server beigetreten")
     await channel.send(embed=embed)
 
+"""
     print("User gejoint")
     # File wird geöffnet
     with open('users.json', 'r') as f:
@@ -35,7 +36,8 @@ async def on_member_join(member):
     # File wird geschlossen
     with open('users.json', 'w') as f:
         json.dump(users, f)
+"""
 
 
 # Client_ID DARF NICHT GEPUSHT WERDEN
-bot.run('OTAyMTc0MTMwMTc3MjEyNDM2.YXalIg.bGFr2BhBB4h2I0x6IUa5I1lzlE8')
+bot.run('')
