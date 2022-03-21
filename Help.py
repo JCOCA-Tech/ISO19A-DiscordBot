@@ -19,7 +19,19 @@ async def help(context):
                        '.pause - Song wird pausiert\r\n'
                        '.play - Spiele Song ab\r\n'
                        '.resume - Setzt den Song fort\r\n'
-                       '.stop - Stopt den Song```')
+                       '.stop - Stopt den Song\r\n'
+                        '\r\n'
+                       '«= Spiele =»\r\n'
+                       '.fact - Zeigt verschiedene Fakten an\r\n'
+                       '.tictactoe - Spiele TicTacToe\r\n'
+                       '.8ball - Spiele 8ball\r\n'
+                       '\r\n'
+                       '«= Moderation =»\r\n'
+                       '.ban [Name] - Bannt einen Spieler vom Server\r\n'
+                       '.unban [Name] - entbannt einen Spieler\r\n'
+                       '.mute [Name] - Stummt einen Spieler\r\n```'
+                       )
+
 
 def setup(bot):
     bot.add_command(help)
