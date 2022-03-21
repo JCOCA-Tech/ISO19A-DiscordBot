@@ -1,136 +1,145 @@
-from os import name
-import numpy, random, discord
+import discord, random
 from discord.ext import commands
 
-class Player:
-    name = ""
-    symbol = ''
+# Discord embed function wrapper
+def embed(title="<empty>", url="", description="", color=0xFF5733):
+    return discord.Embed(title=title, url=url, description=description, color=color)
 
-    def __init__(self,name="NO NAME", symbol='?'):
-        self.name = name
-        self.symbol = symbol
+# Game state variables
+player1 = ""
+player2 = ""
+turn = "" # The turn determines if player one or player two is currently allowed to make a move
+gameOver = True # If this is true it ends the gameloop and exits
 
-    def getSymbol(self):
-        return self.symbol
+board = [] # This is the game board
 
-    def getName(self):
-        return self.name
+# Those are all possible winning conditions
+winningConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+]
 
-grid_x = 10
-grid_y = 10
+@client.command(name='tictactoe')
+async def tictactoe(ctx, p1: discord.Member, p2: discord.Member):
+    global count
+    global player1
+    global player2
+    global turn
+    global gameOver
 
-matrix = [[' ' for i in range(grid_x)] for j in range(grid_y)] # initialise matrix with space symbol of size x by y
+    if gameOver:
+        global board # This is the game board. It is empty at first and gets filled in every turn  
+        board = [":white_large_square:", ":white_large_square:", ":white_large_square:",
+                 ":white_large_square:", ":white_large_square:", ":white_large_square:",
+                 ":white_large_square:", ":white_large_square:", ":white_large_square:"]
+        turn = ""
+        gameOver = False
+        count = 0
 
+        player1 = p1
+        player2 = p2
 
-player_name_1 = "Player 1"
-player_name_2 = "Player 2"
-player_symbol_1 = 'O'
-player_symbol_2 = 'X'
+        # print the board
+        line = ""
+        for x in range(len(board)):
+            if x == 2 or x == 5 or x == 8:
+                line += " " + board[x]
+                await ctx.send(line)
+                line = ""
+            else:
+                line += " " + board[x]
 
-player1 = Player("player 1", 'O')
-player2 = Player("player 2", 'X')
-players = [player1, player2]
-current_player = player1
-
-running = True
-
-#while running: #gameloop
-#    print("gameloop")
-
-def update(): # Update the UI
-
-    fields = []
-
-    for i in range(grid_y):
-        for j in range(grid_x):
-            #print(f"\t{matrix[i-1][j-1]}\t", end="", flush=True)
-            fields.append(matrix[i-1][j-1])
-        #print("\n")
-
-    print(f"""
-    ##########################################################################################
-    ——————————————————————————————————————————————————————————————————————————————————————————
-    Player {current_player.name}'s turn
-    ——————————————————————————————————————————————————————————————————————————————————————————
-    ***Select a field to place the {current_player.symbol} mark using the ".play" command.***
-    ——————————————————————————————————————————————————————————————————————————————————————————
-    {drawGrid(fields)}
-    ——————————————————————————————————————————————————————————————————————————————————————————
-    ***Command usage is: play <x_coordinate>,<y_coordinate>***
-    ——————————————————————————————————————————————————————————————————————————————————————————
-    ##########################################################################################
-    """)
-
-def drawGrid(fields): # Draw the entire current grid
-
-    grid="\t"
-
-    for i in range(grid_x*4+1):
-        grid = grid + '—'
-    grid = grid + "\n\t| "
-
-    row = 1
-
-    for c,i in enumerate(fields):
-
-        grid = grid + i + " | "
-
-        if(row <= grid_y):
-            if(c+1 == (row * grid_x) and c+1 < (grid_x * grid_y)):
-                grid = grid + "\n\t"
-                for i in range(grid_x*4+1):
-                    grid = grid + '—'
-                grid = grid + "\n\t| "
-                row+=1
-            elif(c+1 == (grid_x * grid_y)):
-                grid = grid + "\n\t"
-                for i in range(grid_x*4+1):
-                    grid = grid + '—'
-
-    return grid
-
-def switchPlayer(current_player, players):
-    if(current_player == players[0]):
-        current_player = players[1]
+        # randomly choose who goes first
+        num = random.randint(1, 2)
+        if num == 1:
+            turn = player1
+            await ctx.send("It is <@" + str(player1.id) + ">'s turn.")
+        elif num == 2:
+            turn = player2
+            await ctx.send("It is <@" + str(player2.id) + ">'s turn.")
     else:
-        current_player = players[0]
+        await ctx.send("A game is already in progress! Finish it before starting a new one.")
 
-def moveCoordPrompt(current_player):
-    x_coord = int(input(f"What is your next move {current_player.name}? \n\n Enter x coordinate (maximum is {grid_x}): "))
-    if(x_coord <= grid_x):
-        y_coord = int(input(f"\nEnter y coordinate (maximum is {grid_y}): "))
-        if(y_coord <= grid_y):
-            pass
+@client.command(name='place') # register the tictactoe command
+async def place(ctx, pos: int):
+    global turn
+    global player1
+    global player2
+    global board
+    global count
+    global gameOver
+
+    if not gameOver:
+        mark = ""
+        if turn == ctx.author:
+            if turn == player1:
+                mark = ":regional_indicator_x:"
+            elif turn == player2:
+                mark = ":o2:"
+            if 0 < pos < 10 and board[pos - 1] == ":white_large_square:" :
+                board[pos - 1] = mark
+                count += 1
+
+                # Render the game board
+                line = ""
+                for x in range(len(board)):
+                    if x == 2 or x == 5 or x == 8:
+                        line += " " + board[x]
+                        await ctx.send(line)
+                        line = ""
+                    else:
+                        line += " " + board[x]
+
+                checkWinner(winningConditions, mark) # End game if a player has won
+                print(count) 
+                if gameOver == True:
+                    await ctx.send(mark + " wins!")
+                elif count >= 9:
+                    gameOver = True
+                    await ctx.send("It's a tie!")
+
+                # Change turn 
+                if turn == player1:
+                    turn = player2
+                elif turn == player2:
+                    turn = player1
+            else:
+                await ctx.send("Be sure to choose an integer between 1 and 9 (inclusive) and an unmarked tile.")
         else:
-            print(f"ERROR: Invalid move. The grid is only {grid_y} fields high")
+            await ctx.send("It is not your turn.")
     else:
-        print(f"ERROR: Invalid move. The grid is only {grid_x} fields wide")
-    return [x_coord, y_coord]
+        await ctx.send("Please start a new game using the !tictactoe command.")
 
-def move(matrix, coord, symbol, players, current_player):
-    if(matrix[coord[1]-2][coord[0]-2]== ' '):
-        matrix[coord[1]-2][coord[0]-2] = symbol
-    else:
-        print("ERROR: Invalid move. This field is already taken")
-    switchPlayer(current_player, players)
+# This ends the game if one of the winning conditions is met
+def checkWinner(winningConditions, mark):
+    global gameOver
+    for condition in winningConditions:
+        if board[condition[0]] == mark and board[condition[1]] == mark and board[condition[2]] == mark:
+            gameOver = True
 
-def checkConditions(matrix, current_player):
+# This handles tictactoe errors
+@tictactoe.error
+async def tictactoe_error(ctx, error):
+    print(error)
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Please mention 2 players for this command.")
+    elif isinstance(error, commands.BadArgument):
+        await ctx.send("Please make sure to mention/ping players (ie. <@688534433879556134>).")
 
-    print("0,0: ",matrix[0][0])
-    print("0,1: ",matrix[0][1])
-    print("0,2: ",matrix[0][2])
-    print("symbol: ", current_player.getSymbol())
-
-    if((matrix[0][0] == current_player.getSymbol() and matrix[0][1] == current_player.getSymbol()) and matrix[0][2] == current_player.getSymbol()):
-        print(f"{current_player.getName()} has won the game!")
-        while True:
-            pass
-
-
-while running: # test gameloop
-    update()
-    move(matrix, moveCoordPrompt(current_player), current_player.symbol, players, current_player)
-    checkConditions(matrix, current_player)
+# This handles place errors
+@place.error
+async def place_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Please enter a position you would like to mark.")
+    elif isinstance(error, commands.BadArgument):
+        await ctx.send("Please make sure to enter an integer.")
 
 def setup(bot):
-    bot.add_command(_)
+    bot.add_command(tictactoe)
+    bot.add_command(place)

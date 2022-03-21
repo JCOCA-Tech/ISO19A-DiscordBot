@@ -27,7 +27,8 @@ def embed(title="<empty>", url="", description="", color=0xFF5733):
     return discord.Embed(title=title, url=url, description=description, color=color)
 
 bot.load_extension("Fact")
-# bot.load_extension("TicTacToe")
+bot.load_extension("TicTacToe")
+bot.load_extension("Place")
 bot.load_extension("8Ball")
 
 bot.load_extension("Ban")
