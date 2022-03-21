@@ -1,4 +1,4 @@
-#!/bin/python
+#!/bin/python3
 
 # Import pip modules
 import discord, os, requests, random, json, numpy, random
@@ -13,7 +13,6 @@ load_dotenv()
 # Configure the command options
 prefix='.'
 intents = discord.Intents().guilds
-#client = commands.Bot(command_prefix=prefix,intents=intents)
 bot = commands.Bot(command_prefix=prefix)
 
 # Startup handler
@@ -27,8 +26,7 @@ def embed(title="<empty>", url="", description="", color=0xFF5733):
     return discord.Embed(title=title, url=url, description=description, color=color)
 
 bot.load_extension("Fact")
-bot.load_extension("TicTacToe")
-bot.load_extension("Place")
+bot.load_extension("TicTacToe") # The 'tictactoe' command also contains the 'place' command
 bot.load_extension("8Ball")
 
 bot.load_extension("Ban")
