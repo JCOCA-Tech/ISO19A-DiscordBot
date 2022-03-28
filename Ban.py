@@ -10,7 +10,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("You dont have all the requirements :angry:")
 
-# The below code bans player.
+# The below command bans player.
 
 
 @commands.command(name='ban')
@@ -18,7 +18,8 @@ async def on_command_error(ctx, error):
 async def ban(ctx, member: discord.Member, *, reason=None):
     await member.ban(reason=reason)
 
-# The below code unbans player.
+# The below command unbans player.
+
 
 @commands.command(name='unban')
 @commands.has_permissions(administrator=True)
