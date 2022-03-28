@@ -12,6 +12,7 @@ async def help(context):
     await context.send(f'```«= Bot Hilfe =»\r\n'
                        '.help - Zeigt diese Hilfe an\r\n'
                        '.userinfo [Name] - Zeigt Informationen über einen User an\r\n'
+                       '.about - Zeigt Informationen über den Server an\r\n'
                        '\r\n'
                        '«= Musik Befehle =»\r\n'
                        '.join - Bot joint in den Voice Channel\r\n'
