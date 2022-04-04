@@ -19,6 +19,7 @@ async def help(context):
                        '.leave - Bot verlässt den Channel\r\n'
                        '.pause - Song wird pausiert\r\n'
                        '.play - Spiele Song ab\r\n'
+                       '.skip - Song überspringen\r\n'
                        '.resume - Setzt den Song fort\r\n'
                        '.stop - Stopt den Song\r\n'
                         '\r\n'
@@ -29,7 +30,6 @@ async def help(context):
                        '\r\n'
                        '«= Moderation =»\r\n'
                        '.ban [Name] - Bannt einen Spieler vom Server\r\n'
-                       '.unban [Name] - entbannt einen Spieler\r\n'
                        '.mute [Name] - Stummt einen Spieler\r\n```'
                        )
 
