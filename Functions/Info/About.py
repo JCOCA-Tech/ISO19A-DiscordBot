@@ -3,9 +3,12 @@ import discord
 from discord.ext import commands
 
 # Bot wird definiert, Prefix für Befehle wird festgelegt, Hilfe Befehl wird deaktiviert
-bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".", help_command=None)
+bot = commands.Bot(intents=discord.Intents.all(),
+                   command_prefix=".", help_command=None)
 
 # Server Info Befehl
+
+
 @bot.command(name='about')
 async def about(ctx):
     name = str(ctx.guild.name)
@@ -30,6 +33,7 @@ async def about(ctx):
     embed.add_field(name="Member Count", value=memberCount, inline=True)
 
     await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_command(about)

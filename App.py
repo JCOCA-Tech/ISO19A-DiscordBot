@@ -36,20 +36,20 @@ def embed(title="<empty>", url="", description="", color=0xFF5733):
     return discord.Embed(title=title, url=url, description=description, color=color)
 
 
-bot.load_extension("Fact")
+bot.load_extension("Functions.Games.Fact")
 # The 'tictactoe' command also contains the 'place' command
-bot.load_extension("TicTacToe")
-bot.load_extension("8Ball")
+bot.load_extension("Functions.Games.TicTacToe")
+bot.load_extension("Functions.Games.8Ball")
 
-bot.load_extension("Ban")
-bot.load_extension("Mute")
-bot.load_extension("Unmute")
-bot.load_extension("Kick")
-bot.load_extension("Music")
+bot.load_extension("Functions.Admin.Ban")
+bot.load_extension("Functions.Admin.Mute")
+bot.load_extension("Functions.Admin.Unmute")
+bot.load_extension("Functions.Admin.Kick")
+bot.load_extension("Functions.Music.Music")
 
-# bot.load_extension("Help")
-bot.load_extension("About")
-bot.load_extension("Userinfo")
+# bot.load_extension("Functions.Info.Help")
+bot.load_extension("Functions.Info.About")
+bot.load_extension("Functions.Info.Userinfo")
 
 
 bot.run(os.getenv("TOKEN", "[ERROR]: getenv('TOKEN') failed"))
