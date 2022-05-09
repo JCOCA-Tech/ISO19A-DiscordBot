@@ -12,7 +12,7 @@ async def about(ctx):
     description = str(ctx.guild.description)
 
     owner = str(ctx.guild.owner)
-    id = str(ctx.guild.id)
+    serverInfoID = str(ctx.guild.id)
     region = str(ctx.guild.region)
     memberCount = str(ctx.guild.member_count)
 
@@ -25,7 +25,7 @@ async def about(ctx):
     )
     embed.set_thumbnail(url=icon)
     embed.add_field(name="Owner", value=owner, inline=True)
-    embed.add_field(name="Server ID", value=id, inline=True)
+    embed.add_field(name="Server ID", value=serverInfoID, inline=True)
     embed.add_field(name="Region", value=region, inline=True)
     embed.add_field(name="Member Count", value=memberCount, inline=True)
 

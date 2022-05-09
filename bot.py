@@ -1,6 +1,7 @@
 import discord
 import json
 import os
+import mysql.connector
 
 from discord.ext import commands
 
@@ -18,54 +19,49 @@ bot.load_extension("helpCommand")
 bot.load_extension("serverinfo")
 bot.load_extension("userinfo")
 
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="",
+  database="discordbot"
+)
+
 @bot.event
 async def on_member_join(member):
     channel = bot.get_channel(902176471844540486)
     embed = discord.Embed(title="Willkommen!", description=f"{member.mention} ist unserem Server beigetreten")
-    await channel.send(embed=embed)
+    channel.send(embed=embed)
 
-    with open('users.json', 'r') as f:
-        users = json.load(f)
+    #User in Datenbank abfüllen
+    mycursor = mydb.cursor()
+    username = member;
+    print(member)
 
-    #await update_data(users, member)
+    sql = "INSERT INTO users (username, exp) VALUES (%s, %s)"
+    val = ( username, 0)
+    mycursor.execute(sql, val)
 
-    with open('users.json', 'w') as f:
-        json.dump(users, f)
+    mydb.commit()
+
+    print(mycursor.rowcount, "record inserted.")
 
 @bot.event
 async def on_message(message):
-    
-    with open('users.json', 'r') as f:
-        users = json.load(f)
+    mycursor = mydb.cursor()
 
-    """
-    await update_data(users, message.author)
-    await add_experience(users, message.author, 5)
-    await level_up(users, message.author, message.channel)
-    """
+    #User Id wird ausgelesen
+    userId = str(message.author.id)
+    print(userId)
 
-    with open('users.json', 'w') as f:
-        json.dump(users, f)
+    #Jetzige Punktzahl wird abgefragt
+    mycursor.execute("SELECT points FROM users Where userId = " + userId)
+    result = mycursor.fetchall()
+    print(result)
 
-    async def update_data(users, user):
-        if not user.id in users:
-            users[user.id] = {}
-            users[user.id]['experience'] = 0
-            users[user.id]['level'] = 1
+    newresult = result + 5
 
-    async def add_experience(users, user, exp):
-        users[user.id]['experience'] += exp
-
-    async def level_up(users, user, channel):
-        experience = users[user.id]['experience']
-        lvl_start = users[user.id]['level']
-        lvl_end = int(experience ** (1 / 4))
-
-        if lvl_start < lvl_end:
-            await bot.send_message(channel, '{} has leveled up to level {}'.format(user.mention, lvl_end))
-            users[user.id]['level'] = lvl_end
-
-        # Befehl Klassen werden importiert
+    mycursor.execute("UPDATE users SET points =" + newresult + " WHERE userId =" + userId)
+    print(newresult)
 
 #Client_ID DARF NICHT GEPUSHT WERDEN
-bot.run('')
+bot.run('OTAyMTc0MTMwMTc3MjEyNDM2.YXalIg.tFS_YfivuAjPHcPpLNEUTdJZPaA')
