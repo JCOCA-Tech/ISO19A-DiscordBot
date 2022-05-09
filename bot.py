@@ -51,17 +51,15 @@ async def on_message(message):
 
     #User Id wird ausgelesen
     userId = str(message.author.id)
-    print(userId)
+    print("Author ID: " + userId )
 
     #Jetzige Punktzahl wird abgefragt
     mycursor.execute("SELECT points FROM users Where userId = " + userId)
     result = mycursor.fetchall()
     print(result)
 
-    newresult = result + 5
+    sql = "UPDATE users SET points = " + newresult + "WHERE userId = " + userId
 
-    mycursor.execute("UPDATE users SET points =" + newresult + " WHERE userId =" + userId)
-    print(newresult)
+    mycursor.execute(sql)
 
 #Client_ID DARF NICHT GEPUSHT WERDEN
-bot.run('OTAyMTc0MTMwMTc3MjEyNDM2.YXalIg.tFS_YfivuAjPHcPpLNEUTdJZPaA')
