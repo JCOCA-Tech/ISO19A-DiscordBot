@@ -2,20 +2,15 @@ import discord
 
 from discord.ext import commands
 
-# Bot wird definiert, Prefix für Befehle wird festgelegt, Hilfe Befehl wird deaktiviert
-bot = commands.Bot(intents=discord.Intents.all(),
-                   command_prefix=".", help_command=None)
 
 # Server Info Befehl
-
-
-@bot.command(name='about')
-async def about(ctx):
+@commands.command(name='serverinfo')
+async def serverinfo(ctx):
     name = str(ctx.guild.name)
     description = str(ctx.guild.description)
 
     owner = str(ctx.guild.owner)
-    id = str(ctx.guild.id)
+    serverInfoID = str(ctx.guild.id)
     region = str(ctx.guild.region)
     memberCount = str(ctx.guild.member_count)
 
@@ -28,7 +23,7 @@ async def about(ctx):
     )
     embed.set_thumbnail(url=icon)
     embed.add_field(name="Owner", value=owner, inline=True)
-    embed.add_field(name="Server ID", value=id, inline=True)
+    embed.add_field(name="Server ID", value=serverInfoID, inline=True)
     embed.add_field(name="Region", value=region, inline=True)
     embed.add_field(name="Member Count", value=memberCount, inline=True)
 
@@ -36,4 +31,4 @@ async def about(ctx):
 
 
 def setup(bot):
-    bot.add_command(about)
+    bot.add_command(serverinfo)

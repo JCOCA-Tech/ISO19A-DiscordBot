@@ -5,14 +5,10 @@ from datetime import datetime
 from discord.ext import commands
 
 
-# Bot wird definiert, Prefix für Befehle wird festgelegt, Hilfe Befehl wird deaktiviert
-bot = commands.Bot(intents=discord.Intents.all(),
-                   command_prefix=".", help_command=None)
-
 # User Info Befehl
 
 
-@bot.command(name='userinfo')
+@commands.command(name='userinfo')
 async def userinfo(ctx, member: discord.Member):
     de = pytz.timezone('Europe/Berlin')
     embed = discord.Embed(title=f'> Userinfo für {member.display_name}',

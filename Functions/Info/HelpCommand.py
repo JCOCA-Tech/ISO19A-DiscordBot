@@ -2,19 +2,15 @@ import discord
 
 from discord.ext import commands
 
-# Bot wird definiert, Prefix für Befehle wird festgelegt, Hilfe Befehl wird deaktiviert
-bot = commands.Bot(intents=discord.Intents.all(),
-                   command_prefix=".", help_command=None)
-
 
 # Hilfe Befehl
-@bot.command(name='help')
-async def help(context):
+@commands.command(name='helpcommand')
+async def helpcommand(context):
     await context.send(f'```«= Bot Hilfe =»\r\n'
                        '.help - Zeigt diese Hilfe an\r\n'
                        '.userinfo [Name] - Zeigt Informationen über einen User an\r\n'
                        '.about - Zeigt Informationen über den Server an\r\n'
-                       '.server - Startet einen Web-Server'
+                       '.server - Startet einen Web-Server\r\n'
                        '\r\n'
                        '«= Musik Befehle =»\r\n'
                        '.join - Bot joint in den Voice Channel\r\n'
@@ -37,4 +33,4 @@ async def help(context):
 
 
 def setup(bot):
-    bot.add_command(help)
+    bot.add_command(helpcommand)

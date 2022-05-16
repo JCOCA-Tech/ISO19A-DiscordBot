@@ -26,6 +26,15 @@ bot = commands.Bot(command_prefix=prefix)
 # Startup handler
 
 
+# Willkommensnachricht
+@bot.event
+async def on_member_join(member):
+    channel = bot.get_channel(902176471844540486)
+    embed = discord.Embed(
+        title="Willkommen!", description=f"{member.mention} ist unserem Server beigetreten")
+    await channel.send(embed=embed)
+
+
 @bot.event
 async def on_ready():
     print(f"[DEBUG][on_ready]: Successfull login as \"{bot.user}\"")
@@ -48,8 +57,8 @@ bot.load_extension("Functions.Admin.Kick")
 bot.load_extension("Functions.Admin.Antispam")
 bot.load_extension("Functions.Music.Music")
 
-# bot.load_extension("Functions.Info.Help")
-bot.load_extension("Functions.Info.About")
+bot.load_extension("Functions.Info.HelpCommand")
+bot.load_extension("Functions.Info.Serverinfo")
 bot.load_extension("Functions.Info.Userinfo")
 
 
