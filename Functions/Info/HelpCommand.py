@@ -7,9 +7,9 @@ from discord.ext import commands
 @commands.command(name='helpcommand')
 async def helpcommand(context):
     await context.send(f'```«= Bot Hilfe =»\r\n'
-                       '.help - Zeigt diese Hilfe an\r\n'
+                       '.helpcommand - Zeigt diese Hilfe an\r\n'
                        '.userinfo [Name] - Zeigt Informationen über einen User an\r\n'
-                       '.about - Zeigt Informationen über den Server an\r\n'
+                       '.serverinfo - Zeigt Informationen über den Server an\r\n'
                        '.server - Startet einen Web-Server\r\n'
                        '\r\n'
                        '«= Musik Befehle =»\r\n'
