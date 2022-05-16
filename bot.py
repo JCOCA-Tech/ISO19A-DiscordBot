@@ -1,14 +1,10 @@
 import discord
-import json
-import os
 import mysql.connector
 
 from discord.ext import commands
 
 # Bot wird definiert, Prefix für Befehle wird festgelegt, Hilfe Befehl wird deaktiviert
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".", help_command=None)
-os.chdir(r'C:\dev\ISO19A-DiscordBot')
-
 
 # Meldung wenn der Bot erfolgreich gestartet wurde
 @bot.event
@@ -32,19 +28,6 @@ async def on_member_join(member):
     embed = discord.Embed(title="Willkommen!", description=f"{member.mention} ist unserem Server beigetreten")
     channel.send(embed=embed)
 
-    #User in Datenbank abfüllen
-    mycursor = mydb.cursor()
-    username = member;
-    print(member)
-
-    sql = "INSERT INTO users (username, exp) VALUES (%s, %s)"
-    val = ( username, 0)
-    mycursor.execute(sql, val)
-
-    mydb.commit()
-
-    print(mycursor.rowcount, "record inserted.")
-
 @bot.event
 async def on_message(message):
     mycursor = mydb.cursor()
@@ -53,13 +36,30 @@ async def on_message(message):
     userId = str(message.author.id)
     print("Author ID: " + userId )
 
-    #Jetzige Punktzahl wird abgefragt
+    #Existiert Benutzer schon
     mycursor.execute("SELECT points FROM users Where userId = " + userId)
     result = mycursor.fetchall()
     print(result)
 
-    sql = "UPDATE users SET points = " + newresult + "WHERE userId = " + userId
+    x = len(result)
+    print(x)
 
-    mycursor.execute(sql)
+    if x == 0:
+        print("Test 1")
+        #User wird erstellt
+        mycursor.execute("INSERT INTO users (userId) VALUES (" + userId + ")")
+    else:
+        print("Test 2")
+
+        #Jetzige Punktzahl wird abgefragt
+        mycursor.execute("SELECT points FROM users Where userId = " + userId)
+        result = mycursor.fetchall()
+        newresult = str(result)
+        print(newresult)
+
+        #Neue Punktzahl wird gesetzt
+        sql = "UPDATE users SET points = " + newresult + "WHERE userId = " + userId
+        mycursor.execute(sql)
 
 #Client_ID DARF NICHT GEPUSHT WERDEN
+bot.run('')
