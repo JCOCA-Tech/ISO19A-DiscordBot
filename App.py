@@ -35,6 +35,35 @@ async def on_member_join(member):
     await channel.send(embed=embed)
 
 
+# Levelsystem
+"""@bot.event
+async def on_message(message):
+    mycursor = mydb.cursor()
+    #User Id wird ausgelesen
+    userId = str(message.author.id)
+    print("Author ID: " + userId )
+    #Existiert Benutzer schon
+    mycursor.execute("SELECT points FROM users Where userId = " + userId)
+    result = mycursor.fetchall()
+    print(result)
+    x = len(result)
+    print(x)
+    if x == 0:
+        print("Test 1")
+        #User wird erstellt
+        mycursor.execute("INSERT INTO users (userId) VALUES (" + userId + ")")
+    else:
+        print("Test 2")
+        #Jetzige Punktzahl wird abgefragt
+        mycursor.execute("SELECT points FROM users Where userId = " + userId)
+        result = mycursor.fetchall()
+        newresult = str(result)
+        print(newresult)
+        #Neue Punktzahl wird gesetzt
+        sql = "UPDATE users SET points = " + newresult + "WHERE userId = " + userId
+        mycursor.execute(sql)"""
+
+
 @bot.event
 async def on_ready():
     print(f"[DEBUG][on_ready]: Successfull login as \"{bot.user}\"")
