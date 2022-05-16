@@ -9,26 +9,33 @@ bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".", help_comma
 # Meldung wenn der Bot erfolgreich gestartet wurde
 @bot.event
 async def on_ready():
+    #Nachricht von Bot wenn online
     print(f'BotId: {bot.user.id} - Name: {bot.user.name}')
 
+#Befehle werden geladen
 bot.load_extension("helpCommand")
 bot.load_extension("serverinfo")
 bot.load_extension("userinfo")
 
+"""
+#Datenbankverbindung wird aufgebaut
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="",
   database="discordbot"
 )
+"""
 
+#Willkommensnachricht
 @bot.event
 async def on_member_join(member):
     channel = bot.get_channel(902176471844540486)
     embed = discord.Embed(title="Willkommen!", description=f"{member.mention} ist unserem Server beigetreten")
-    channel.send(embed=embed)
+    await channel.send(embed=embed)
 
-@bot.event
+#Levelsystem
+"""@bot.event
 async def on_message(message):
     mycursor = mydb.cursor()
 
@@ -59,7 +66,7 @@ async def on_message(message):
 
         #Neue Punktzahl wird gesetzt
         sql = "UPDATE users SET points = " + newresult + "WHERE userId = " + userId
-        mycursor.execute(sql)
+        mycursor.execute(sql)"""
 
 #Client_ID DARF NICHT GEPUSHT WERDEN
 bot.run('')
