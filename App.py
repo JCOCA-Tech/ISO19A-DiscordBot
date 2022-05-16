@@ -45,6 +45,7 @@ bot.load_extension("Functions.Admin.Ban")
 bot.load_extension("Functions.Admin.Mute")
 bot.load_extension("Functions.Admin.Unmute")
 bot.load_extension("Functions.Admin.Kick")
+bot.load_extension("Functions.Admin.Antispam")
 bot.load_extension("Functions.Music.Music")
 
 # bot.load_extension("Functions.Info.Help")
