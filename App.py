@@ -29,7 +29,7 @@ bot = commands.Bot(command_prefix=prefix)
 # Willkommensnachricht
 @bot.event
 async def on_member_join(member):
-    channel = bot.get_channel(902176471844540486)
+    channel = bot.get_channel(902177572975149126)
     embed = discord.Embed(
         title="Willkommen!", description=f"{member.mention} ist unserem Server beigetreten")
     await channel.send(embed=embed)
@@ -72,6 +72,31 @@ async def on_ready():
 # Discord embed function wrapper
 def embed(title="<empty>", url="", description="", color=0xFF5733):
     return discord.Embed(title=title, url=url, description=description, color=color)
+
+
+@bot.event
+async def on_message(message):
+    if bot.user in message.mentions:
+        # Specify API endpoint on the rasa instance
+        message_url = 'http://localhost:5005/webhooks/rest/webhook'
+        # Request headers
+        headers = {'Content-type': 'application/json'}
+        # Request payload
+        payload = '{"sender": "' + str(message.author.id) + \
+            '", "message": "' + message.content + '"}'
+        # Post request
+        r = requests.post(message_url, data=payload.encode(
+            'utf-8'), headers=headers)
+        # Log the response message from rasa, preceeded by user id
+        print(f"[DEBUG][RASA]: {json.loads(r.content)}")
+        try:
+            # Parse response
+            res = json.loads(r.content)[0]
+            # Answer to the user that sent the message (mentions the recipient)
+            await message.reply(res['text'])
+        except:
+            await message.reply("Oopsie! looks like i am currently not able to handle this")
+    return
 
 
 bot.load_extension("Functions.Games.Fact")
